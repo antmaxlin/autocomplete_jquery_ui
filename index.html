@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="us">
+<head>
+	<meta charset="utf-8">
+	<title>jQuery UI Example Page</title>
+	<link href="css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+	<script src="js/jquery-1.9.1.js"></script>
+	<script src="js/jquery-ui-1.10.3.custom.js"></script>
+<style>
+.ui-menu {
+	min-width: 500px;	
+}
+.ui-menu .ui-menu-item b {
+	float:left;
+	min-width: 200px;
+}
+.ui-menu .ui-menu-item img {
+	min-height: 1px;
+	width: 20px;
+}
+</style>
+    
+<!-- Autocomplete w local source-->
+<div id="project-label">Select a project (type "j" for a start):</div>
+<input id="project" />
+<input type="hidden" id="project-id" />
+
+<script>
+$(function() {
+	 var projects = [
+		{
+			value: "jquery",
+			label: "jQuery",
+			cat: "anime",
+			desc: "the write less, do more, JavaScript library",
+			icon: "http://s3.amazonaws.com/weflect-users/2-47366dd091c6edcfbd7bb8a3e132bb87-32794-s.jpg",
+			url: "http://www.weflect.com/object/House+M%21%40150D%21%40150/1000003400412142/28/"
+		},
+		{
+			value: "jquery-ui",
+			label: "jQuery UI",
+			cat: "anime",
+			desc: "the official user interface library for jQuery",
+			icon: "jqueryui_32x32.png",
+			url: "http://www.weflect.com/object/Ender%21%40120s+Shadow/1000010500009532/73/"
+		},
+		{
+			value: "sizzlejs",
+			label: "Sizzle JS",
+			cat: "movie",
+			desc: "a pure-JavaScript CSS selector engine",
+			icon: "sizzlejs_32x32.png",
+			url: "http://www.weflect.com/object/Hugo/1000003500970179/26/"
+		}
+	];
+		   
+		   
+	$( "#project" ).autocomplete({
+		minLength: 0,
+		source: projects,
+		focus: function( event, ui ) {
+			$( "#project" ).val( ui.item.label );
+			return false;
+		},
+		select: function( event, ui ) {
+			$( "#project" ).val( ui.item.label );
+			$( "#project-id" ).val( ui.item.value );
+				return false;
+		}
+	})
+	.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		return $( "<li>" )
+		.append( "<b>" + item.cat + "</b>" + "<a href='" + item.url + "'><img src='" + item.icon + "'>" + item.label + "<br>" + item.desc + "</a>" )
+		.appendTo( ul );
+	};
+});
+</script>
+
+<!-- Autocomplete w Remote source-->
+<div id="weflect-label">Remote Source : </div>
+<input id="object" />
+<input type="hidden" id="obj_id" />
+
+<script>
+$(function() {
+	 $( "#object" ).autocomplete({
+		source: "autocomplete.php",
+		minLength: 1
+		})
+	 .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		return $( "<li>" )
+		.append( "<b>" + item.cat + "</b>" + "<a href='" + item.url + "'><img src='" + item.img + "'>" + item.label + "</a>" )
+		.appendTo( ul );
+	};
+});
+</script>
+
+
+</body>
+</html>
